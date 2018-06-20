@@ -1,16 +1,18 @@
 const mongoose = require('mongoose');
 const logger = require('./config-logger');
 
-const {
-  MONGO_HOST,
-  MONGO_PORT,
-  MONGO_USERNAME,
-  MONGO_PWD,
-} = process.env;
 
 
-function startDb() {
-  mongoose.connect(`mongodb://${MONGO_USERNAME}:${MONGO_PWD}@${MONGO_HOST}:${MONGO_PORT}`)
+
+function startDb(conf) {
+  let connectionString = '';
+  if (conf.MONGO_USERNAME !== '' && conf.MONGO_PWD !== '') {
+    connectionString = `mongodb://${conf.MONGO_USERNAME}:${conf.MONGO_PWD}@${conf.MONGO_HOST}:${conf.MONGO_PORT}/users`;
+  } else {
+    connectionString = `mongodb://${conf.MONGO_HOST}:${conf.MONGO_PORT}/users`;
+  }
+
+  mongoose.connect(connectionString)
     .then(() => {
       logger.info('connected to mongo');
     }).catch((err) => {

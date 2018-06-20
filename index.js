@@ -7,9 +7,17 @@ const userRoute = require('./src/routes/user-route');
 const errorHandler = require('./src/middlewares/error-handler');
 const startDb = require('./config/config-mongoose');
 
+
+const conf = {
+  MONGO_HOST,
+  MONGO_PORT,
+  MONGO_USERNAME,
+  MONGO_PWD,
+} = process.env;
+
 require('dotenv').config();
 
-startDb();
+startDb(conf);
 
 const port = process.env.PORT;
 
