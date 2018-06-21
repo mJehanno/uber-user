@@ -16,11 +16,14 @@ function createUser(user) {
 }
 
 function updateUser(user) {
-  return userModel.updateOne({ id: user.id }, user);
+  return userModel.updateOne({ _id: user.id }, user);
 }
 
 function deleteUser(id) {
-  return userModel.remove({ id });
+  return userModel.remove({ _id: id });
+}
+function deleteUsers() {
+  return userModel.remove({});
 }
 
 module.exports = {
@@ -29,4 +32,5 @@ module.exports = {
   createUser,
   updateUser,
   deleteUser,
+  deleteUsers,
 };

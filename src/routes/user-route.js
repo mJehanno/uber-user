@@ -42,6 +42,14 @@ router
       logger.error(err);
       res.status(400).send();
     });
+  })
+  .delete('/', (req, res) => {
+    userService.deleteUsers().then(() => {
+      res.send();
+    }).catch((err) => {
+      logger.error(err);
+      res.status(400).send();
+    });
   });
 
 module.exports = router;
