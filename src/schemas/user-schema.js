@@ -1,6 +1,5 @@
 const Schema = require('mongoose').Schema;
-const bcrypt = require('bcrypt');
-const saltRounds = 10;
+const argon2 = require('argon2');
 
 const userSchema = new Schema({
   email: String,
@@ -12,9 +11,11 @@ const userSchema = new Schema({
 
 userSchema.pre('save', function (next) {
   if (this.isNew) {
-    bcrypt.hash(this.password, saltRounds, (err, hash) => {
+    argon2.hash(this.password).then((hash) => {
       this.password = hash;
       next();
+    }).catch((err) => {
+      console.log(err);
     });
   }
 });
